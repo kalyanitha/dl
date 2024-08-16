@@ -1,0 +1,58 @@
+import numpy as np
+from sklearn.datasets import load_wine
+from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
+from keras.layers import Dense, Input, concatenate, Dropout
+from keras.models import Model
+from tensorflow.keras import optimizers
+optimizers.RMSprop
+optimizers.Adam
+dataset = load_wine()
+ensemble_num = 10
+bootstrap_size = 0.8
+training_size = 0.8
+num_hidden_neurosn = 10
+dropout = 0.25
+epochs = 100
+batch = 10
+temp = []
+scaler = MinMaxScaler()
+one_hot = OneHotEncoder()
+dataset['data'] = scaler.fit_transform(dataset['data'])
+dataset['target'] = one_hot.fit_transform(np.reshape(dataset['target'], (-1, 1))).toarray()
+for i in range(len(dataset.data)):
+temp.append([dataset['data'][i], np.array(dataset['target'][i])])
+temp = np.array(temp, dtype=object)
+np.random.shuffle(temp)
+#holdout training and test stop index
+stop = int(training_size*len(dataset.data))
+train_X = np.array([x for x in temp[:stop, 0]])
+train_Y = np.array([x for x in temp[:stop, 1]])
+test_X = np.array([x for x in temp[stop:, 0]])
+test_Y = np.array([x for x in temp[stop:, 1]])
+num_hidden_neurons = 64
+sub_net_outputs = []
+sub_net_inputs = []
+for i in range(ensemble_num):
+#two hidden layers to keep it simple
+# specify input shape to the shape of the training set
+net_input = Input(shape=(train_X.shape[1],))
+sub_net_inputs.append(net_input)
+Y = Dense(num_hidden_neurons)(net_input)
+Y = Dense(num_hidden_neurons)(Y)
+Y = Dropout(dropout)(Y)
+# sub_nets contains the output tensors
+sub_net_outputs.append(Y)
+Y = concatenate(sub_net_outputs)
+Y = Dense(train_Y[0].shape[0], activation='softmax')(Y)
+model = Model(inputs=sub_net_inputs, outputs=Y)
+model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
+print('\n')
+print("7_Aditya Hadap")
+print("Begin training...")
+model.fit([train_X] * ensemble_num, train_Y, validation_data=[[test_X] * ensemble_num,
+test_Y], epochs=epochs, batch_size=batch)
+print("Training complete...")
+np.set_printoptions(precision=2, suppress=True)
+for i in range(len(test_X)):
+print("Prediction: " + str(model.predict([test_X[i].reshape(1, test_X[i].shape[0])] *
+ensemble_num)) + " | True: " + str(test_Y[i]))

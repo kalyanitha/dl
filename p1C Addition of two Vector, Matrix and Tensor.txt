@@ -1,0 +1,13 @@
+x=np.array([1,2,3,4])
+y=np.array([5,6,7,8])
+z=x+y
+print("Addition of two Matrix: ",z)
+print("\n")
+A=np.array([[1,2],[3,4],[5,6]])
+B=np.array([[2,5],[7,4],[4,3]])
+C=A*B
+print("Addition of two Vector: \n",C)
+print("\n")
+tensor_add=tf.add(tensor_A,tensor_B)
+print("Addition of two Tensor: ",tensor_add)
+print("\n")

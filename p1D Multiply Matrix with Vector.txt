@@ -1,0 +1,5 @@
+x=np.array([1,2,3,7,3,5,2])
+y=np.array([[1],[3],[5],[7],[8],[8],[2]])
+c=x*y
+print("Multiplication of Vector and Matrix: \n",c)
+print("\n")

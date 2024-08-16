@@ -1,0 +1,27 @@
+pip install scikeras
+from pandas import read_csv
+from keras.models import Sequential
+from keras.layers import Dense
+from scikeras.wrappers import KerasClassifier
+from sklearn.model_selection import cross_val_score
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import StratifiedKFold
+dataframe=read_csv('sonar.csv',header=None)
+dataset=dataframe.values
+X=dataset[:,0:60].astype(float)
+Y=dataset[:,60]
+encoder=LabelEncoder()
+encoder.fit(Y)
+encoded_y=encoder.transform(Y)
+def create_baseline():
+model=Sequential()
+model.add(Dense(60,input_dim=60,activation='relu'))
+model.add(Dense(1,activation='sigmoid'))
+model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
+return model
+
+estimator=KerasClassifier(model=create_baseline,epochs=10,batch_size=5,verbose=0)
+KFold=StratifiedKFold(n_splits=10,shuffle=True)
+results=cross_val_score(estimator,X,encoded_y,cv=KFold)
+print("\n")
+print("Baseline: %.2f%% (%.2f%%)"%(results.mean()*100,results.std()*100))

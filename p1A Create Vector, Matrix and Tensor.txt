@@ -1,0 +1,48 @@
+
+import numpy as np
+import tensorflow as tf
+x=np.array([1,2,3,4])
+print("Create a Vector: ",x)
+print("\n")
+A=np.array([[1,2],[3,4],[5,6]])
+print("Create a Matrix: \n",A)
+print("\n")
+tensor_A=tf.constant([[1,2]],dtype=tf.int32)
+print("Create a Tensor: ",tensor_A)
+print("\n")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import numpy as np: This imports the NumPy library, which is commonly used for numerical operations in Python, and gives it the alias np for convenience.
+
+import tensorflow as tf: This imports TensorFlow, a library used for machine learning and numerical computations, and gives it the alias tf.
+
+np.array([1, 2, 3, 4]): This creates a NumPy array with the elements [1, 2, 3, 4]. In NumPy terminology, this is referred to as a 1-dimensional array or a vector.
+
+print("Create a Vector: ", x): This prints the message "Create a Vector: " followed by the contents of the vector x.
+
+print("\n"): This adds a new line for readability in the output.
+
+np.array([[1, 2], [3, 4], [5, 6]]): This creates a NumPy array with the specified 2D structure. This is a 3x2 matrix with three rows and two columns.
+
+print("Create a Matrix: \n", A): This prints the message "Create a Matrix: " followed by the contents of the matrix A. The \n ensures that the matrix is printed on a new line.
+
+print("\n"): This adds an extra new line for readability in the output.
+
+tf.constant([[1, 2]], dtype=tf.int32): This creates a TensorFlow tensor with the shape (1, 2) and the values [1, 2]. The dtype=tf.int32 specifies that the data type of the tensor's elements is 32-bit integer. 
+ensors are similar to arrays but are used in TensorFlow, which supports a broader range of operations for machine learning and other numerical computations.
+
+print("Create a Tensor: ", tensor_A): This prints the message "Create a Tensor: " followed by the tensor tensor_A.
+print("\n"): This adds a new line for readability in the output.
